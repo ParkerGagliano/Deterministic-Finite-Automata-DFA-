@@ -1,3 +1,4 @@
+import time
 class Graph:
     def __init__(self, graph, mappings, start, final):
         self.graph = graph
@@ -21,3 +22,20 @@ class Graph:
             print('Doesnt accept')
             return False
         
+    def visualizedJudge(self, string):
+        current = self.start
+        print(f"Judging DFA, starting at {current}")
+        time.sleep(.5)
+        for i in string:
+            tempcurrent = current 
+            current = self.dic[current+i]
+            print(f"{tempcurrent} with {i} as input brings us to {current}")
+            time.sleep(.5)
+        print(f"that was the last comparison, is {current} the final state?")
+        time.sleep(.5)
+        if current == self.final:
+            print('Yes it is, this string would be accepted!')
+            return True
+        else:
+            print('No its not, this string is denied!')
+            return False

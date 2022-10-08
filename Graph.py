@@ -41,3 +41,51 @@ class Graph:
         else:
             print('\nNo its not, this string is denied!')
             return False
+
+
+class GraphHelper:
+    def __init__(self) -> None:
+        self.temp = []
+        self.graph = 0
+        self.st = 0
+        self.end = 0
+        self.theGraph = 0
+
+    def getStates(self):
+        self.st = input("--what is the inital state? ex q0--\n")
+        self.end = input("--Lastly what is the final state ex q0--\n")
+
+    def getMappings(self):
+        for i in range(2):
+            for x in range(len(self.graph)):
+                print(f'--what does q{x}, {i} map to? ex q0--\n')
+                inp = input()
+                self.temp.append([f'q{x}{i}', f'{inp}'])
+
+    def start(self):
+        inp = input(
+            '---DFA Solver, please specify the input---\nexample input is q0 q1 q2, with only 1 space in between\n')
+        self.graph = inp.split()
+
+    def createGraph(self):
+        self.theGraph = Graph(self.graph, self.temp, self.st, self.end)
+        self.theGraph.createMapping()
+
+    def outputType(self):
+        theString = input(
+            "what string would you like to try with this DFA? ex: 1010101\n")
+        yn = input(
+            "would you like to see the process of the DFA evaluation y/n?\n")
+        if yn == 'y':
+            self.theGraph.visualizedJudge(theString)
+        elif yn == 'n':
+            self.theGraph.judge(theString)
+        else:
+            'wrong input'
+
+    def standardRun(self):
+        self.start()
+        self.getMappings()
+        self.getStates()
+        self.createGraph()
+        self.outputType()

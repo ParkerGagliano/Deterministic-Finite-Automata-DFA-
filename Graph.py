@@ -1,3 +1,4 @@
+from genericpath import isfile
 import time
 
 
@@ -18,10 +19,10 @@ class Graph:
         for i in string:
             current = self.dic[current+i]
         if current == self.final:
-            print('\nLast node is final node, string is accepted')
+            #print('\nLast node is final node, string is accepted')
             return True
         else:
-            print('\nLast node does not match the final node, string is not accepted')
+            #print('\nLast node does not match the final node, string is not accepted')
             return False
 
     def visualizedJudge(self, string):
@@ -50,6 +51,7 @@ class GraphHelper:
         self.st = 0
         self.end = 0
         self.theGraph = 0
+        self.isFile = False
 
     def getStates(self):
         self.st = input("--what is the inital state? ex q0--\n")
@@ -66,6 +68,9 @@ class GraphHelper:
         inp = input(
             '---DFA Solver, please specify the input---\nexample input is q0 q1 q2, with only 1 space in between\n')
         self.graph = inp.split()
+        inp = input("Will you be using a file as input y/n?")
+        if inp == 'y':
+            self.isFile = True
 
     def createGraph(self):
         self.theGraph = Graph(self.graph, self.temp, self.st, self.end)
@@ -83,9 +88,36 @@ class GraphHelper:
         else:
             'wrong input'
 
+    def fileRun(self):
+        inp = input(
+            "You must input a text file in the folder. What is the name of the file, with extension included")
+        file = open(inp, 'r')
+        finalfile = open('accepted', 'x')
+        for line in file:
+            if line[0] == 'a' or line[0] == 'b':
+                final = ''
+                for letter in line:
+                    if letter == 'a':
+                        final = final + '0'
+                    else:
+                        final = final + '1'
+            else:
+                if self.theGraph.judge(line):
+                    print(line)
+                    finalfile.write(line)
+            if self.theGraph.judge(final):
+                print(line)
+                finalfile.write(line)
+        file.close
+        finalfile.close
+        print('accepted strings added to accepted.txt')
+
     def standardRun(self):
         self.start()
         self.getMappings()
         self.getStates()
         self.createGraph()
-        self.outputType()
+        if self.isFile:
+            self.fileRun()
+        else:
+            self.outputType()

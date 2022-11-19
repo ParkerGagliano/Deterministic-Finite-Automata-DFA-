@@ -1,4 +1,3 @@
-from genericpath import isfile
 import time
 
 
@@ -19,10 +18,8 @@ class Graph:
         for i in string:
             current = self.dic[current+i]
         if current == self.final:
-            #print('\nLast node is final node, string is accepted')
             return True
         else:
-            #print('\nLast node does not match the final node, string is not accepted')
             return False
 
     def visualizedJudge(self, string):
